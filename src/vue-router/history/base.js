@@ -25,22 +25,19 @@ const runQueue = (queue, iterator, complete) => {
   }
   next(0)
 }
-// 这个current就是一个普通的变量 this.current ?  希望current变化了可以更新视图
+
 export default class History {
   constructor(router) {
     this.router = router
 
     // 这个代表的是 当前路径匹配出来的记录
-    // / {path:'/',component:home}
-    // /about/a     {path:'/abouT',component:about} {path:'/about/A',component:A}
-    this.current = createRoute(null, {
-      path: '/'
-    })
-    // this.current = {path:'/',matched:[]}
+    // / {path:'/'， component:home}
+    // /about/a，{path:'/abouT',component:about} {path:'/about/A',component:A}
+    this.current = createRoute(null, { path: '/' })
   }
   transitionTo(location, complete) {
-    // 获取当前路径匹配出对应的记录，当路径变化时获取对应的记录  =》 渲染页面 （router-view实现的）
-    //  通过路径拿到对应的记录 有了记录之后 就可以找到对象的匹配
+    // 获取当前路径匹配出对应的记录，当路径变化时获取对应的记录  => 渲染页面 （router-view实现的）
+    // 通过路径拿到对应的记录 有了记录之后 就可以找到对象的匹配
     let current = this.router.match(location)
 
     // 防止重复点击 不需要再次渲染
@@ -58,7 +55,7 @@ export default class History {
     }
     runQueue(queue, iterator, () => {
       // 用最新的匹配到的结果 ， 去更新视图
-      this.current = current // 这个current只是响应式的 他的变化不会更新_route
+      this.current = current
       this.cb && this.cb(current)
 
       // 当路径变化后 current属性会进行更新操作
